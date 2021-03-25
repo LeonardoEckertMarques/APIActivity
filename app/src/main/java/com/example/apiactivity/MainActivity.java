@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     new Handler().postDelayed(new Runnable() {
       @Override
       public void run() {
-        startActivity(new Intent(MainActivity.this, ListaActivity.class));
+        startActivity(new Intent(MainActivity.this, ListsBotao.class));
         finish();
       }
     }, 3000);

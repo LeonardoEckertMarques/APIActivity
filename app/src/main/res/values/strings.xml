@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">APIActivity</string>
-    <string name="app_main_center">LIST CREATOR</string>
-    <string name="app_main_top">CRIANDO LISTAS COM O APP LIST CREATOR</string>
+    <string name="app_main_center">LISTA KREATOR</string>
+    <string name="app_main_top">CRIANDO LISTAS COM O APP LISTA KREATOR</string>
 </resources>
