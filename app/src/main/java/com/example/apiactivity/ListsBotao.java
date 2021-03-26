@@ -12,7 +12,7 @@ public class ListsBotao extends AppCompatActivity {
   private Button posts;
   private Button albums;
   private Button todos;
-  private Button coments;
+  private Button comments;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class ListsBotao extends AppCompatActivity {
     posts = findViewById(R.id.posts);
     albums = findViewById(R.id.albums);
     todos = findViewById(R.id.todos);
-    coments = findViewById(R.id.comments);
+    comments = findViewById(R.id.comments);
 
     posts.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -38,6 +38,24 @@ public class ListsBotao extends AppCompatActivity {
       public void onClick(View v) {
         Intent i = new Intent(ListsBotao.this, ListsActivity.class);
         i.putExtra("op", "albums");
+        startActivity(i);
+      }
+    });
+
+    todos.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent i = new Intent(ListsBotao.this, ListsActivity.class);
+        i.putExtra("op", "todos");
+        startActivity(i);
+      }
+    });
+
+    comments.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent i = new Intent(ListsBotao.this, ListsActivity.class);
+        i.putExtra("op", "comments");
         startActivity(i);
       }
     });

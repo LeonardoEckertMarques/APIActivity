@@ -2,4 +2,6 @@
     <string name="app_name">APIActivity</string>
     <string name="app_main_center">LISTA KREATOR</string>
     <string name="app_main_top">CRIANDO LISTAS COM O APP LISTA KREATOR</string>
+    <string name="app_listsbotao_message">ESCOLHA A SUA LISTA</string>
+    <string name="app_listsbotao_bottom">BEM VINDO AO LISTA KREATOR</string>
 </resources>

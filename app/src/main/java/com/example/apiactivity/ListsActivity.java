@@ -18,7 +18,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.apiactivity.model.Albums;
+import com.example.apiactivity.model.Comments;
 import com.example.apiactivity.model.Posts;
+import com.example.apiactivity.model.Todos;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,39 +35,31 @@ public class ListsActivity extends AppCompatActivity
 
   List<Posts> posts =  new ArrayList<>();
   List<Albums> albums =  new ArrayList<>();
+  List<Todos> todos = new ArrayList<>();
+  List<Comments> comments = new ArrayList<>();
 
-  private TextView tv;
+  private TextView tipo;
   private String op;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_lista);
-
-    TextView tv = findViewById(R.id.textoSegunda);
-
+    tipo = findViewById(R.id.textoSegunda);
     op = getIntent().getStringExtra("op");
 
     switch (op) {
       case "posts":
-        tv.setText(op);
+      case "albums":
+      case "todos":
+      case "comments":
+        tipo.setText(op);
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://jsonplaceholder.typicode.com/posts";
-
+        String url = "https://jsonplaceholder.typicode.com/" + op;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 this, this);
-
         queue.add(jsonArrayRequest);
         break;
-      case "albums":
-        tv.setText(op);
-        RequestQueue queue1 = Volley.newRequestQueue(this);
-        String url1 = "https://jsonplaceholder.typicode.com/albums";
-
-        JsonArrayRequest jsonArrayRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null,
-                this, this);
-
-        queue1.add(jsonArrayRequest1);
       default:
         break;
     }
@@ -76,6 +70,8 @@ public class ListsActivity extends AppCompatActivity
   public void onResponse(JSONArray response) {
 
     try {
+
+      LinearLayout layout = findViewById(R.id.layoutVerticalItens);
 
       switch (op) {
         case "posts":
@@ -90,8 +86,7 @@ public class ListsActivity extends AppCompatActivity
             posts.add(obj);
           }
 
-          LinearLayout ll = findViewById(R.id.layoutVerticalItens);
-          Toast.makeText(this,"qtd:"+posts.size(),Toast.LENGTH_LONG).show();
+          Toast.makeText(this,"Recebido: " + posts.size() + " posts",Toast.LENGTH_LONG).show();
 
           for(Posts obj1 : posts) {
             Button bt = new Button(this);
@@ -101,49 +96,103 @@ public class ListsActivity extends AppCompatActivity
               @Override
               public void onClick(View v) {
                 Button btn = (Button) v;
-                Posts todo = (Posts) btn.getTag();
+                Posts tp = (Posts) btn.getTag();
                 Intent intent = new Intent(ListsActivity.this, DetalhesActivity.class);
-                intent.putExtra("objTodo", todo);
+                intent.putExtra("objTp", tp);
                 startActivity(intent);
               }
             });
-            ll.addView(bt);
+            layout.addView(bt);
           }
-
         break;
         case "albums":
 
           for(int i = 0; i < response.length(); i++) {
             JSONObject json = response.getJSONObject(i);
-            Albums obj2 = new Albums(
+            Albums obj = new Albums(
                     json.getInt("userId"),
                     json.getInt("id"),
                     json.getString("title"));
-            albums.add(obj2);
+            albums.add(obj);
           }
 
-          LinearLayout ll1 = findViewById(R.id.layoutVerticalItens);
-          Toast.makeText(this,"qtd:"+albums.size(),Toast.LENGTH_LONG).show();
+          Toast.makeText(this,"Recebido: " + albums.size() + " albums",Toast.LENGTH_LONG).show();
 
-          for(Albums obj2 : albums) {
+          for(Albums albums_obj : albums) {
             Button bt = new Button(this);
-            bt.setText(obj2.getTitle());
-            bt.setTag(obj2);
+            bt.setText(albums_obj.getTitle());
+            bt.setTag(albums_obj);
             bt.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
                 Button btn = (Button) v;
-                Albums todo = (Albums) btn.getTag();
+                Albums tp = (Albums) btn.getTag();
                 Intent intent = new Intent(ListsActivity.this, DetalhesActivity.class);
-                intent.putExtra("objTodo", todo);
+                intent.putExtra("objTp", tp);
                 startActivity(intent);
               }
             });
-            ll1.addView(bt);
+            layout.addView(bt);
           }
-
           break;
-      }
+        case "todos":
+          for(int i = 0; i < response.length(); i++) {
+            JSONObject json = response.getJSONObject(i);
+            Todos obj = new Todos(
+                    json.getInt("userId"),
+                    json.getInt("id"),
+                    json.getString("title"),
+                    json.getBoolean("completed"));
+            todos.add(obj);
+          }
+          Toast.makeText(this,"Recebido : " + todos.size() + " todos",Toast.LENGTH_LONG).show();
+          for(Todos todos_obj : todos) {
+            Button bt = new Button(this);
+            bt.setText(todos_obj.getTitle());
+            bt.setTag(todos_obj);
+            bt.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                Button btn = (Button) v;
+                Todos tp = (Todos) btn.getTag();
+                Intent intent = new Intent(ListsActivity.this, DetalhesActivity.class);
+                intent.putExtra("objTp", tp);
+                startActivity(intent);
+              }
+            });
+            layout.addView(bt);
+          }
+          break;
+        case "comments":
+          for(int i = 0; i < response.length(); i++) {
+            JSONObject json = response.getJSONObject(i);
+            Comments obj = new Comments(
+                    json.getInt("postId"),
+                    json.getInt("id"),
+                    json.getString("name"),
+                    json.getString("email"),
+                    json.getString("body"));
+            comments.add(obj);
+          }
+          Toast.makeText(this,"Recebido: " + comments.size() + " comments",Toast.LENGTH_LONG).show();
+          for(Comments comments_obj : comments) {
+            Button bt = new Button(this);
+            bt.setText(comments_obj.getName());
+            bt.setTag(comments_obj);
+            bt.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                Button btn = (Button) v;
+                Comments tp = (Comments) btn.getTag();
+                Intent intent = new Intent(ListsActivity.this, DetalhesActivity.class);
+                intent.putExtra("objTp", tp);
+                startActivity(intent);
+              }
+            });
+            layout.addView(bt);
+          }
+          break;
+      }// fim do switch
 
       } catch (JSONException e) {
         Log.e("JSONException",e.getMessage());
