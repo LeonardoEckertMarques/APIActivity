@@ -45,7 +45,7 @@ public class ListsActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_lista);
-    tipo = findViewById(R.id.textoSegunda);
+    tipo = findViewById(R.id.listaSelecionada);
     op = getIntent().getStringExtra("op");
 
     switch (op) {
@@ -53,7 +53,7 @@ public class ListsActivity extends AppCompatActivity
       case "albums":
       case "todos":
       case "comments":
-        tipo.setText(op);
+        tipo.setText("Lista Selecionada: \n" +op.toUpperCase());
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://jsonplaceholder.typicode.com/" + op;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -97,9 +97,10 @@ public class ListsActivity extends AppCompatActivity
               public void onClick(View v) {
                 Button btn = (Button) v;
                 Posts tp = (Posts) btn.getTag();
-                Intent intent = new Intent(ListsActivity.this, DetalhesActivity.class);
-                intent.putExtra("objTp", tp);
-                startActivity(intent);
+                Intent i = new Intent(ListsActivity.this, DetalhesActivity.class);
+                i.putExtra("op", op);
+                i.putExtra("objTp", tp);
+                startActivity(i);
               }
             });
             layout.addView(bt);
@@ -127,9 +128,10 @@ public class ListsActivity extends AppCompatActivity
               public void onClick(View v) {
                 Button btn = (Button) v;
                 Albums tp = (Albums) btn.getTag();
-                Intent intent = new Intent(ListsActivity.this, DetalhesActivity.class);
-                intent.putExtra("objTp", tp);
-                startActivity(intent);
+                Intent i = new Intent(ListsActivity.this, DetalhesActivity.class);
+                i.putExtra("op", op);
+                i.putExtra("objTp", tp);
+                startActivity(i);
               }
             });
             layout.addView(bt);
@@ -155,9 +157,10 @@ public class ListsActivity extends AppCompatActivity
               public void onClick(View v) {
                 Button btn = (Button) v;
                 Todos tp = (Todos) btn.getTag();
-                Intent intent = new Intent(ListsActivity.this, DetalhesActivity.class);
-                intent.putExtra("objTp", tp);
-                startActivity(intent);
+                Intent i = new Intent(ListsActivity.this, DetalhesActivity.class);
+                i.putExtra("op", op);
+                i.putExtra("objTp", tp);
+                startActivity(i);
               }
             });
             layout.addView(bt);
@@ -184,9 +187,10 @@ public class ListsActivity extends AppCompatActivity
               public void onClick(View v) {
                 Button btn = (Button) v;
                 Comments tp = (Comments) btn.getTag();
-                Intent intent = new Intent(ListsActivity.this, DetalhesActivity.class);
-                intent.putExtra("objTp", tp);
-                startActivity(intent);
+                Intent i = new Intent(ListsActivity.this, DetalhesActivity.class);
+                i.putExtra("op", op);
+                i.putExtra("objTp", tp);
+                startActivity(i);
               }
             });
             layout.addView(bt);
